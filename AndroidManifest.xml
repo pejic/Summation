@@ -12,7 +12,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme" android:name="SummationApplication">
         <activity
             android:name="net.pejici.summation.SummationList"
             android:label="@string/app_name" >
@@ -21,6 +21,14 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="net.pejici.summation.SheetActivity"
+            android:label="@string/title_activity_sheet"
+            android:parentActivityName="net.pejici.summation.SummationList" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="net.pejici.summation.SummationList" />
         </activity>
     </application>
 

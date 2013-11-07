@@ -4,6 +4,7 @@ import net.pejici.summation.adapter.SheetSpinnerAdapter;
 import net.pejici.summation.model.DBHelper;
 import net.pejici.summation.model.Model;
 import android.app.ActionBar;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 
@@ -11,13 +12,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class SummationList extends FragmentActivity implements
 		ActionBar.OnNavigationListener {
-	Model model;
 
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
@@ -28,8 +29,6 @@ public class SummationList extends FragmentActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		DBHelper dbhelper = new DBHelper(this.getApplicationContext());
-		model = new Model(dbhelper.getWritableDatabase());
 		setContentView(R.layout.activity_summation_list);
 
 		// Set up the action bar to show a dropdown list.
@@ -38,8 +37,9 @@ public class SummationList extends FragmentActivity implements
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
 		// Set up the dropdown list navigation in the action bar.
+		SummationApplication sa = (SummationApplication) getApplication();
 		
-		Cursor sheetsCursor = model.getSheets();
+		Cursor sheetsCursor = sa.getModel().getSheets();
 		SheetSpinnerAdapter sheets = new SheetSpinnerAdapter(
 				getApplication(), sheetsCursor);
 		actionBar.setListNavigationCallbacks(sheets, this);
@@ -106,6 +106,20 @@ public class SummationList extends FragmentActivity implements
 					ARG_SECTION_NUMBER)));
 			return rootView;
 		}
+	}
+
+	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		// TODO Auto-generated method stub
+		if (item.getItemId() == R.id.action_add) {
+			//
+			Intent intent = new Intent(this, SheetActivity.class);
+			startActivity(intent);
+		}
+		else if (item.getItemId() == R.id.action_settings) {
+			// TODO
+		}
+		return super.onMenuItemSelected(featureId, item);
 	}
 
 }

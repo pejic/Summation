@@ -4,5 +4,9 @@
     <string name="app_name">Summation</string>
     <string name="action_settings">Settings</string>
     <string name="action_add">Add</string>
+    <string name="title_activity_sheet">Sheet</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_discard">Discard</string>
+    <string name="text_sheet_name">Sheet Name</string>
 
 </resources>
