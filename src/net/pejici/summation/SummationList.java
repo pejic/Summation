@@ -1,6 +1,10 @@
 package net.pejici.summation;
 
+import net.pejici.summation.adapter.SheetSpinnerAdapter;
+import net.pejici.summation.model.DBHelper;
+import net.pejici.summation.model.Model;
 import android.app.ActionBar;
+import android.database.Cursor;
 import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
@@ -9,11 +13,11 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 public class SummationList extends FragmentActivity implements
 		ActionBar.OnNavigationListener {
+	Model model;
 
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
@@ -24,6 +28,8 @@ public class SummationList extends FragmentActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		DBHelper dbhelper = new DBHelper(this.getApplicationContext());
+		model = new Model(dbhelper.getWritableDatabase());
 		setContentView(R.layout.activity_summation_list);
 
 		// Set up the action bar to show a dropdown list.
@@ -32,14 +38,11 @@ public class SummationList extends FragmentActivity implements
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
 		// Set up the dropdown list navigation in the action bar.
-		actionBar.setListNavigationCallbacks(
-		// Specify a SpinnerAdapter to populate the dropdown list.
-				new ArrayAdapter<String>(actionBar.getThemedContext(),
-						android.R.layout.simple_list_item_1,
-						android.R.id.text1, new String[] {
-								getString(R.string.title_section1),
-								getString(R.string.title_section2),
-								getString(R.string.title_section3), }), this);
+		
+		Cursor sheetsCursor = model.getSheets();
+		SheetSpinnerAdapter sheets = new SheetSpinnerAdapter(
+				getApplication(), sheetsCursor);
+		actionBar.setListNavigationCallbacks(sheets, this);
 	}
 
 	@Override
