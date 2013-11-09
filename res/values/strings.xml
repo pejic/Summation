@@ -8,5 +8,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_discard">Discard</string>
     <string name="text_sheet_name">Sheet Name</string>
+    <string name="action_edit">Edit</string>
 
 </resources>

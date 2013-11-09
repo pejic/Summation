@@ -1,16 +1,35 @@
 package net.pejici.summation;
 
-import net.pejici.summation.model.Model;
+import net.pejici.summation.model.Query.SheetEntry;
 import android.os.Bundle;
-import android.app.Activity;
+import android.content.ContentValues;
+import android.database.Cursor;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.support.v4.app.NavUtils;
+import android.text.Editable;
+import android.text.TextWatcher;
 
-public class SheetActivity extends Activity {
+public class SheetActivity extends BaseActivity {
 
-	EditText sheetName = null;
+	private EditText sheetNameEditText = null;
+	private static final String [] columns =
+		{SheetEntry.COL_PKEY, SheetEntry.COL_NAME};
+
+	ContentValues values = null;
+
+	public String getName() {
+		return values.getAsString(SheetEntry.COL_NAME);
+	}
+
+	public void setName(String sheetName) {
+		values.put(SheetEntry.COL_NAME, sheetName);
+	}
+
+	public Long getSheetId() {
+		return values.getAsLong(SheetEntry.COL_PKEY);
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -18,7 +37,25 @@ public class SheetActivity extends Activity {
 		setContentView(R.layout.activity_sheet);
 		// Show the Up button in the action bar.
 		setupActionBar();
-		sheetName = (EditText) this.findViewById(R.id.sheet_sheet_name);
+		sheetNameEditText = (EditText) this.findViewById(R.id.sheet_sheet_name);
+		sheetNameEditText.addTextChangedListener(new TextWatcher() {
+			public void onTextChanged(CharSequence s, int start, int before, int count) {}
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+			public void afterTextChanged(Editable s) {
+				setName(s.toString());
+			}
+		});
+		if (getIntent() != null
+				&& getIntent().getExtras() != null
+				&& getIntent().getExtras().containsKey("sheetId"))
+		{
+			Long id = getIntent().getExtras().getLong("sheetId");
+			values = new ContentValues(getModel().getSheet(id, columns));
+			sheetNameEditText.setText(values.getAsString(SheetEntry.COL_NAME));
+		}
+		else {
+			values = new ContentValues();
+		}
 	}
 
 	/**
@@ -55,7 +92,6 @@ public class SheetActivity extends Activity {
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		if (item.getItemId() == R.id.action_cancel) {
-			sheetName.setText("");
 			NavUtils.navigateUpFromSameTask(this);
 		}
 		return super.onMenuItemSelected(featureId, item);
@@ -63,12 +99,11 @@ public class SheetActivity extends Activity {
 
 	@Override
 	protected void onPause() {
-		// TODO Auto-generated method stub
-		if (sheetName.getText().length() != 0) {
-			SummationApplication sa = (SummationApplication) getApplication();
-			Model model = sa.getModel();
-			String name = sheetName.getText().toString();
-			model.addSheet(name);
+		if (getSheetId() == null) {
+			values.put(SheetEntry.COL_PKEY, getModel().addSheet(getName()));
+		}
+		else {
+			getModel().updateSheet(values);
 		}
 		super.onPause();
 	}

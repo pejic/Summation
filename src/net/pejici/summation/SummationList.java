@@ -3,6 +3,7 @@ package net.pejici.summation;
 import net.pejici.summation.adapter.SheetSpinnerAdapter;
 import net.pejici.summation.model.DBHelper;
 import net.pejici.summation.model.Model;
+import net.pejici.summation.model.Query.SheetEntry;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.database.Cursor;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,6 +28,8 @@ public class SummationList extends FragmentActivity implements
 	 */
 	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
 
+	Long sheetId = null;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -38,8 +42,9 @@ public class SummationList extends FragmentActivity implements
 
 		// Set up the dropdown list navigation in the action bar.
 		SummationApplication sa = (SummationApplication) getApplication();
-		
-		Cursor sheetsCursor = sa.getModel().getSheets();
+
+		String [] columns = SheetSpinnerAdapter.DB_SHEET_COLUMNS;
+		Cursor sheetsCursor = sa.getModel().getSheets(columns);
 		SheetSpinnerAdapter sheets = new SheetSpinnerAdapter(
 				getApplication(), sheetsCursor);
 		actionBar.setListNavigationCallbacks(sheets, this);
@@ -74,6 +79,8 @@ public class SummationList extends FragmentActivity implements
 		// container view.
 		Fragment fragment = new DummySectionFragment();
 		Bundle args = new Bundle();
+		Log.i("Sheet", "Selected sheet id = " + id);
+		sheetId = id;
 		args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
 		fragment.setArguments(args);
 		getSupportFragmentManager().beginTransaction()
@@ -114,6 +121,11 @@ public class SummationList extends FragmentActivity implements
 		if (item.getItemId() == R.id.action_add) {
 			//
 			Intent intent = new Intent(this, SheetActivity.class);
+			startActivity(intent);
+		}
+		else if (item.getItemId() == R.id.action_edit){
+			Intent intent = new Intent(this, SheetActivity.class);
+			intent.putExtra("sheetId", sheetId);
 			startActivity(intent);
 		}
 		else if (item.getItemId() == R.id.action_settings) {

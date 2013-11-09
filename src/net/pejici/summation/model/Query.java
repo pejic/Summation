@@ -1,5 +1,7 @@
 package net.pejici.summation.model;
 
+import android.provider.BaseColumns;
+
 /**
  * This class contains static strings and methods with SQL Queries.
  *
@@ -20,5 +22,16 @@ public class Query {
 				+ "label TEXT DEFAULT NULL, "
 				+ "value DOUBLE DEFAULT NULL"
 				+ ");";
+	}
+
+	public class Entry implements BaseColumns {
+		public static final String TABLE_NAME = "";
+		public static final String _ID = "pk as _id";
+		public static final String COL_PKEY = "pk";
+	}
+
+	public class SheetEntry extends Entry {
+		public static final String TABLE_NAME = "sheet";
+		public static final String COL_NAME = "name";
 	}
 }
