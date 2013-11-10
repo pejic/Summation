@@ -24,14 +24,23 @@ public class Query {
 				+ ");";
 	}
 
-	public class Entry implements BaseColumns {
+	public static class Entry implements BaseColumns {
 		public static final String TABLE_NAME = "";
 		public static final String _ID = "pk as _id";
 		public static final String COL_PKEY = "pk";
 	}
 
-	public class SheetEntry extends Entry {
+	public static class SheetEntry extends Entry {
 		public static final String TABLE_NAME = "sheet";
 		public static final String COL_NAME = "name";
+	}
+
+	public static class ItemEntry extends Entry {
+		public static String TABLE_NAME(Long sheetId) {
+			return "sheet_"+sheetId;
+		}
+		public static final String COL_CREATION_DATE = "date";
+		public static final String COL_LABEL = "label";
+		public static final String COL_VALUE = "value";
 	}
 }

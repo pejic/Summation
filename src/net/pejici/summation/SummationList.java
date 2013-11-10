@@ -1,22 +1,27 @@
 package net.pejici.summation;
 
+import net.pejici.summation.adapter.ItemAdapter;
 import net.pejici.summation.adapter.SheetSpinnerAdapter;
 import net.pejici.summation.model.DBHelper;
 import net.pejici.summation.model.Model;
+import net.pejici.summation.model.Query.ItemEntry;
 import net.pejici.summation.model.Query.SheetEntry;
 import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.widget.CursorAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class SummationList extends FragmentActivity implements
@@ -81,7 +86,7 @@ public class SummationList extends FragmentActivity implements
 		Bundle args = new Bundle();
 		Log.i("Sheet", "Selected sheet id = " + id);
 		sheetId = id;
-		args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
+		args.putLong(DummySectionFragment.ARG_SHEET_ID, id);
 		fragment.setArguments(args);
 		getSupportFragmentManager().beginTransaction()
 				.replace(R.id.container, fragment).commit();
@@ -97,7 +102,7 @@ public class SummationList extends FragmentActivity implements
 		 * The fragment argument representing the section number for this
 		 * fragment.
 		 */
-		public static final String ARG_SECTION_NUMBER = "section_number";
+		public static final String ARG_SHEET_ID = "sheetId";
 
 		public DummySectionFragment() {
 		}
@@ -105,12 +110,18 @@ public class SummationList extends FragmentActivity implements
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
+			Context context = getActivity().getApplicationContext();
 			View rootView = inflater.inflate(
 					R.layout.fragment_summation_list_dummy, container, false);
-			TextView dummyTextView = (TextView) rootView
-					.findViewById(R.id.section_label);
-			dummyTextView.setText(Integer.toString(getArguments().getInt(
-					ARG_SECTION_NUMBER)));
+			ListView listView = (ListView) rootView
+					.findViewById(R.id.itemListView);
+			SummationApplication sa = (SummationApplication)getActivity()
+					.getApplication();
+			Long sheetId = getArguments().getLong(ARG_SHEET_ID);
+			Cursor items = sa.getModel()
+					.getItems(sheetId, ItemAdapter.DB_ITEM_COLUMNS);
+			ItemAdapter itemAdapter = new ItemAdapter(context, items, 0);
+			listView.setAdapter(itemAdapter);
 			return rootView;
 		}
 	}

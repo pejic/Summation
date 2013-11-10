@@ -1,7 +1,5 @@
 package net.pejici.summation.model;
 
-import net.pejici.summation.model.Query.Entry;
-import net.pejici.summation.model.Query.SheetEntry;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
@@ -33,16 +31,40 @@ public class Model {
 		return pk;
 	}
 
-	public void deleteSheet(long taskId) {
+	public void deleteSheet(long sheetId) {
 		db.delete(SheetEntry.TABLE_NAME,
-				SheetEntry.COL_PKEY + "=" + taskId,
+				SheetEntry.COL_PKEY + "=" + sheetId,
 				null);
+	}
+
+	public Cursor getItems(long sheetId, String [] columns) {
+		return db.query(ItemEntry.TABLE_NAME(sheetId), columns,
+				null, null, null, null, null);
 	}
 
 	public void updateSheet(ContentValues values) {
 		Long pkey = values.getAsLong(SheetEntry.COL_PKEY);
 		if (null != pkey) {
 			db.update(SheetEntry.TABLE_NAME, values,
+					SheetEntry.COL_PKEY + "=" + pkey,
+					null);
+		}
+	}
+
+	public Long addItem(long sheetId, ContentValues values) {
+		return db.insert(ItemEntry.TABLE_NAME(sheetId), null, values);
+	}
+
+	public void deleteItem(long sheetId, long itemId) {
+		db.delete(ItemEntry.TABLE_NAME(sheetId),
+				ItemEntry.COL_PKEY + "=" + itemId,
+				null);
+	}
+
+	public void updateItem(long sheetId, ContentValues values) {
+		Long pkey = values.getAsLong(ItemEntry.COL_PKEY);
+		if (null != pkey) {
+			db.update(ItemEntry.TABLE_NAME(sheetId), values,
 					SheetEntry.COL_PKEY + "=" + pkey,
 					null);
 		}
