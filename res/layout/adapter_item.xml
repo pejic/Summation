@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/view_root"
     android:layout_width="match_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="wrap_content" >
 
     <TextView
         android:id="@+id/label_title"
@@ -10,6 +10,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:paddingBottom="@dimen/adapter_horizontal_padding"
+        android:paddingLeft="@dimen/adapter_horizontal_padding"
+        android:paddingRight="@dimen/adapter_horizontal_padding"
+        android:paddingTop="@dimen/adapter_vertical_padding"
         android:text="@android:string/untitled"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -17,8 +21,13 @@
         android:id="@+id/label_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/label_title"
         android:layout_alignBottom="@+id/label_title"
         android:layout_alignParentRight="true"
+        android:paddingBottom="@dimen/adapter_horizontal_padding"
+        android:paddingLeft="@dimen/adapter_horizontal_padding"
+        android:paddingRight="@dimen/adapter_vertical_padding"
+        android:paddingTop="@dimen/adapter_vertical_padding"
         android:text="@android:string/untitled"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
