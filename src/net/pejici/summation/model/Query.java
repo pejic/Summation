@@ -24,6 +24,10 @@ public class Query {
 				+ ");";
 	}
 
+	static String DB_SHEET_SUM(Long pk) {
+		return "SELECT SUM(" + ItemEntry.COL_VALUE + ") FROM sheet_"+pk+";";
+	}
+
 	public static class Entry implements BaseColumns {
 		public static final String TABLE_NAME = "";
 		public static final String _ID = "pk as _id";

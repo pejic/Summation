@@ -122,6 +122,13 @@ public class SummationList extends FragmentActivity implements
 					.getItems(sheetId, ItemAdapter.DB_ITEM_COLUMNS);
 			ItemAdapter itemAdapter = new ItemAdapter(context, items, 0);
 			listView.setAdapter(itemAdapter);
+			TextView sumView = (TextView) rootView
+					.findViewById(R.id.summationListSum);
+			Double sum = sa.getModel().getSheetSum(sheetId);
+			if (null != sum) {
+				String sumText = String.valueOf(sum);
+				sumView.setText(sumText);
+			}
 			return rootView;
 		}
 	}

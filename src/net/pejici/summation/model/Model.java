@@ -18,9 +18,17 @@ public class Model {
 				null, null, null, null, null);
 	}
 
-	public ContentValues getSheet(long taskId, String [] columns) {
+	public ContentValues getSheet(long sheetId, String [] columns) {
 		return firstFromQuery(SheetEntry.TABLE_NAME, columns,
-				SheetEntry.COL_PKEY+"="+taskId, null, null, null, null);
+				SheetEntry.COL_PKEY+"="+sheetId, null, null, null, null);
+	}
+
+	public Double getSheetSum(long sheetId) {
+		Cursor cursor = db.rawQuery(DB_SHEET_SUM(sheetId), null);
+		while (cursor.moveToNext()) {
+			return cursor.getDouble(0);
+		}
+		return null;
 	}
 
 	public Long addSheet(String name) {
