@@ -84,7 +84,6 @@ public class SummationList extends FragmentActivity implements
 		// container view.
 		Fragment fragment = new DummySectionFragment();
 		Bundle args = new Bundle();
-		Log.i("Sheet", "Selected sheet id = " + id);
 		sheetId = id;
 		args.putLong(DummySectionFragment.ARG_SHEET_ID, id);
 		fragment.setArguments(args);
@@ -136,7 +135,7 @@ public class SummationList extends FragmentActivity implements
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		// TODO Auto-generated method stub
-		if (item.getItemId() == R.id.action_add) {
+		if (item.getItemId() == R.id.action_add_sheet) {
 			//
 			Intent intent = new Intent(this, SheetActivity.class);
 			startActivity(intent);
