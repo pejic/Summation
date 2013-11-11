@@ -50,6 +50,11 @@ public class Model {
 				null, null, null, null, null);
 	}
 
+	public ContentValues getItem(long sheetId, long itemId, String [] columns) {
+		return firstFromQuery(ItemEntry.TABLE_NAME(sheetId), columns,
+				ItemEntry.COL_PKEY+"="+itemId, null, null, null, null);
+	}
+
 	public void updateSheet(ContentValues values) {
 		Long pkey = values.getAsLong(SheetEntry.COL_PKEY);
 		if (null != pkey) {

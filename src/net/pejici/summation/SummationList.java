@@ -2,10 +2,6 @@ package net.pejici.summation;
 
 import net.pejici.summation.adapter.ItemAdapter;
 import net.pejici.summation.adapter.SheetSpinnerAdapter;
-import net.pejici.summation.model.DBHelper;
-import net.pejici.summation.model.Model;
-import net.pejici.summation.model.Query.ItemEntry;
-import net.pejici.summation.model.Query.SheetEntry;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
@@ -14,13 +10,13 @@ import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.widget.CursorAdapter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -102,6 +98,7 @@ public class SummationList extends FragmentActivity implements
 		 * fragment.
 		 */
 		public static final String ARG_SHEET_ID = "sheetId";
+		private Long sheetId = null;
 
 		public DummySectionFragment() {
 		}
@@ -116,13 +113,25 @@ public class SummationList extends FragmentActivity implements
 					.findViewById(R.id.itemListView);
 			SummationApplication sa = (SummationApplication)getActivity()
 					.getApplication();
-			Long sheetId = getArguments().getLong(ARG_SHEET_ID);
+			sheetId = getArguments().getLong(ARG_SHEET_ID);
 			Cursor items = sa.getModel()
 					.getItems(sheetId, ItemAdapter.DB_ITEM_COLUMNS);
 			ItemAdapter itemAdapter = new ItemAdapter(context, items, 0);
 			listView.setAdapter(itemAdapter);
 			TextView sumView = (TextView) rootView
 					.findViewById(R.id.summationListSum);
+			OnItemClickListener listener = new OnItemClickListener() {
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view,
+						int position, long id) {
+					Intent itemIntent = new Intent(getActivity(),
+							ItemActivity.class);
+					itemIntent.putExtra("sheetId", sheetId);
+					itemIntent.putExtra("itemId", id);
+					startActivity(itemIntent);
+				}
+			};
+			listView.setOnItemClickListener(listener);
 			Double sum = sa.getModel().getSheetSum(sheetId);
 			if (null != sum) {
 				String sumText = String.valueOf(sum);
@@ -135,7 +144,12 @@ public class SummationList extends FragmentActivity implements
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		// TODO Auto-generated method stub
-		if (item.getItemId() == R.id.action_add_sheet) {
+		if (item.getItemId() == R.id.action_add) {
+			Intent itemIntent = new Intent(this, ItemActivity.class);
+			itemIntent.putExtra("sheetId", sheetId);
+			startActivity(itemIntent);
+		}
+		else if (item.getItemId() == R.id.action_add_sheet) {
 			//
 			Intent intent = new Intent(this, SheetActivity.class);
 			startActivity(intent);

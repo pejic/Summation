@@ -11,5 +11,11 @@
     <string name="text_sheet_name">Sheet Name</string>
     <string name="action_edit">Edit</string>
     <string name="text_summation">Sum</string>
+    <string name="item_label_hint">Label</string>
+    <string name="item_value_hint">Value</string>
+    <string name="title_activity_item">ItemActivity</string>
+    <string name="item_label_text">Label</string>
+    <string name="item_value_text">Value</string>
+    <string name="item_activity_title">Item</string>
 
 </resources>
