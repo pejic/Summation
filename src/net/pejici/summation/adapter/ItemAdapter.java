@@ -39,4 +39,8 @@ public class ItemAdapter extends CursorAdapter {
 		return rootView;
 	}
 
+	public String getLabelAt(int position) {
+		Cursor cursor = (Cursor) getItem(position);
+		return cursor.getString(1);
+	}
 }

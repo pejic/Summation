@@ -10,12 +10,15 @@ import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -143,13 +146,49 @@ public class SummationList extends FragmentActivity implements
 				}
 			};
 			listView.setOnItemClickListener(listener);
+			registerForContextMenu(listView);
 			updateSum();
 			return rootView;
 		}
 
 		@Override
+		public void onCreateContextMenu(ContextMenu menu, View v,
+				ContextMenuInfo menuInfo) {
+			// TODO Auto-generated method stub
+			super.onCreateContextMenu(menu, v, menuInfo);
+			if (v.getId() == R.id.itemListView) {
+				AdapterView.AdapterContextMenuInfo info =
+						(AdapterView.AdapterContextMenuInfo)menuInfo;
+				menu.setHeaderTitle(itemAdapter.getLabelAt(info.position));
+				String options[] = getResources()
+						.getStringArray(R.array.item_context_menu);
+				for (int i = 0; i < options.length; i++) {
+					String option = options[i];
+					menu.add(Menu.NONE, i, i, option);
+				}
+			}
+		}
+
+		@Override
+		public boolean onContextItemSelected(MenuItem item) {
+			AdapterView.AdapterContextMenuInfo info =
+					(AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+			int menuItemId = item.getItemId();
+			if (menuItemId == 0) { // Delete
+				getSummationApplication().getModel()
+					.deleteItem(sheetId, info.id);
+				updateAll();
+			}
+			return true;
+		}
+
+		@Override
 		public void onResume() {
 			super.onResume();
+			updateAll();
+		}
+
+		private void updateAll() {
 			recreateItemAdapter();
 			updateSum();
 		}
