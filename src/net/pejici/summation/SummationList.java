@@ -19,7 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -35,7 +34,7 @@ public class SummationList extends FragmentActivity implements
 
 	private Long sheetId = null;
 	private SheetSpinnerAdapter sheetsAdapter = null;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -223,14 +222,12 @@ public class SummationList extends FragmentActivity implements
 
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		// TODO Auto-generated method stub
 		if (item.getItemId() == R.id.action_add) {
 			Intent itemIntent = new Intent(this, ItemActivity.class);
 			itemIntent.putExtra("sheetId", sheetId);
 			startActivity(itemIntent);
 		}
 		else if (item.getItemId() == R.id.action_add_sheet) {
-			//
 			Intent intent = new Intent(this, SheetActivity.class);
 			startActivity(intent);
 		}

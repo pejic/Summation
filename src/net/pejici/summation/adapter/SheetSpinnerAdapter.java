@@ -4,7 +4,6 @@ import net.pejici.summation.model.Query.SheetEntry;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.widget.SimpleCursorAdapter;
-import android.util.Log;
 
 public class SheetSpinnerAdapter extends SimpleCursorAdapter {
 

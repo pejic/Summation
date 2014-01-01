@@ -71,15 +71,15 @@ public class ItemActivity extends BaseActivity {
 			this.values = values;
 			this.key = key;
 		}
-		
+
 		@Override
 		public void onTextChanged(CharSequence s,
 				int start, int before, int count) {}
-		
+
 		@Override
 		public void beforeTextChanged(CharSequence s,
 				int start, int count, int after) {}
-		
+
 		@Override
 		public void afterTextChanged(Editable s) {
 			values.put(key, s.toString());
@@ -122,7 +122,6 @@ public class ItemActivity extends BaseActivity {
 
 	@Override
 	protected void onPause() {
-		// TODO Auto-generated method stub
 		if (null != sheetId) {
 			Long itemId = values.getAsLong(ItemEntry.COL_PKEY);
 			if (null != itemId) {
