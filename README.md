@@ -1,6 +1,6 @@
 =Summation
 
-A simple list of items with a total at the end.
+A simple Android app with list of items with a total at the end.
 
 ==Copyright & Licence
 
