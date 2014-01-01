@@ -30,8 +30,14 @@ public class ItemActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_item);
-		sheetId = getIntent().getExtras().getLong("sheetId");
-		Long itemId = getIntent().getExtras().getLong("itemId");
+		Bundle bundle = getIntent().getExtras();
+		if (bundle.containsKey("sheetId")) {
+			sheetId = bundle.getLong("sheetId");
+		}
+		Long itemId = null;
+		if (bundle.containsKey("itemId")) {
+			itemId = bundle.getLong("itemId");
+		}
 		if (null != sheetId && null != itemId) {
 			values = getModel().getItem(sheetId, itemId, columns);
 		}
