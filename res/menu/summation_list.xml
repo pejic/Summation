@@ -1,5 +1,4 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-
     <item
         android:id="@+id/action_add"
         android:icon="@drawable/ic_action_new"
@@ -12,15 +11,15 @@
         android:title="@string/action_add_sheet">
     </item>
     <item
-        android:id="@+id/action_edit"
+        android:id="@+id/action_edit_sheet"
+        android:showAsAction="never"
         android:icon="@drawable/ic_action_edit"
-        android:title="@string/action_edit">
+        android:title="@string/action_edit_sheet">
     </item>
     <item
-        android:id="@+id/action_settings"
-        android:icon="@drawable/ic_action_settings"
-        android:orderInCategory="100"
+        android:id="@+id/action_delete_sheet"
         android:showAsAction="never"
-        android:title="@string/action_settings"/>
-
+        android:icon="@drawable/ic_action_discard"
+        android:title="@string/action_delete_sheet">
+    </item>
 </menu>

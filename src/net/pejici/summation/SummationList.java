@@ -2,6 +2,7 @@ package net.pejici.summation;
 
 import net.pejici.summation.adapter.ItemAdapter;
 import net.pejici.summation.adapter.SheetSpinnerAdapter;
+import net.pejici.summation.model.Model;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
@@ -233,15 +234,23 @@ public class SummationList extends FragmentActivity implements
 			Intent intent = new Intent(this, SheetActivity.class);
 			startActivity(intent);
 		}
-		else if (item.getItemId() == R.id.action_edit){
+		else if (item.getItemId() == R.id.action_edit_sheet){
 			Intent intent = new Intent(this, SheetActivity.class);
 			intent.putExtra("sheetId", sheetId);
 			startActivity(intent);
 		}
-		else if (item.getItemId() == R.id.action_settings) {
-			// TODO
+		else if (item.getItemId() == R.id.action_delete_sheet) {
+			Model model = getSummationApplication().getModel();
+			if (null != sheetId) {
+				model.deleteSheet(sheetId);
+				sheetId = null;
+				recreateSheetsList();
+			}
 		}
 		return super.onMenuItemSelected(featureId, item);
 	}
 
+	private SummationApplication getSummationApplication() {
+		return (SummationApplication)getApplication();
+	}
 }

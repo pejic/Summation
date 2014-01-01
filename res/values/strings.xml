@@ -5,11 +5,12 @@
     <string name="action_settings">Settings</string>
     <string name="action_add">Add</string>
     <string name="action_add_sheet">Add Sheet</string>
+    <string name="action_discard">Discard</string>
+    <string name="action_edit_sheet">Edit Sheet</string>
+    <string name="action_delete_sheet">Delete Sheet</string>
     <string name="title_activity_sheet">Sheet</string>
     <string name="hello_world">Hello world!</string>
-    <string name="action_discard">Discard</string>
     <string name="text_sheet_name">Sheet Name</string>
-    <string name="action_edit">Edit</string>
     <string name="text_summation">Sum</string>
     <string name="item_label_hint">Label</string>
     <string name="item_value_hint">Value</string>
