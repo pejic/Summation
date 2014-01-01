@@ -4,6 +4,7 @@ import net.pejici.summation.model.Query.SheetEntry;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.util.Log;
 
 public class SheetSpinnerAdapter extends SimpleCursorAdapter {
 
@@ -17,6 +18,17 @@ public class SheetSpinnerAdapter extends SimpleCursorAdapter {
 
 	public SheetSpinnerAdapter(Context context, Cursor c) {
 		super(context, viewId, c, from, to, 0);
+	}
+
+	public Integer positionByItemId(long itemId) {
+		for (int i = 0; i < getCount(); i++) {
+			Cursor cursor = (Cursor) getItem(i);
+			long id = cursor.getLong(0);
+			if (id == itemId) {
+				return i;
+			}
+		}
+		return null;
 	}
 
 }
