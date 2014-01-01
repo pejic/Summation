@@ -116,6 +116,7 @@ public class SummationList extends FragmentActivity implements
 		private Long sheetId = null;
 		private ListView listView = null;
 		private ItemAdapter itemAdapter = null;
+		private TextView sumView = null;
 
 		public ItemTableFragment() {
 		}
@@ -129,8 +130,7 @@ public class SummationList extends FragmentActivity implements
 					.findViewById(R.id.itemListView);
 			sheetId = getArguments().getLong(ARG_SHEET_ID);
 			recreateItemAdapter();
-			TextView sumView = (TextView) rootView
-					.findViewById(R.id.summationListSum);
+			sumView = (TextView) rootView.findViewById(R.id.summationListSum);
 			OnItemClickListener listener = new OnItemClickListener() {
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view,
@@ -143,12 +143,7 @@ public class SummationList extends FragmentActivity implements
 				}
 			};
 			listView.setOnItemClickListener(listener);
-			Double sum = getSummationApplication().getModel()
-					.getSheetSum(sheetId);
-			if (null != sum) {
-				String sumText = String.valueOf(sum);
-				sumView.setText(sumText);
-			}
+			updateSum();
 			return rootView;
 		}
 
@@ -156,10 +151,20 @@ public class SummationList extends FragmentActivity implements
 		public void onResume() {
 			super.onResume();
 			recreateItemAdapter();
+			updateSum();
 		}
 
 		private SummationApplication getSummationApplication() {
 			return (SummationApplication)getActivity().getApplication();
+		}
+
+		private void updateSum() {
+			Double sum = getSummationApplication().getModel()
+					.getSheetSum(sheetId);
+			if (null != sum) {
+				String sumText = String.valueOf(sum);
+				sumView.setText(sumText);
+			}
 		}
 
 		private void recreateItemAdapter() {
