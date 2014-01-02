@@ -1,8 +1,8 @@
-=Summation
+#Summation
 
 A simple Android app with list of items with a total at the end.
 
-==Copyright & Licence
+##Copyright & Licence
 
 Copyright (c) Slobodan Pejic 2013
 
