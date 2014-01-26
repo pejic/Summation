@@ -82,6 +82,9 @@ public class SummationList extends FragmentActivity implements
 		else {
 			sheetsAdapter.changeCursor(sheetsCursor);
 		}
+		if (sheetsCursor.getCount() == 0) {
+			setSheetId(null);
+		}
 	}
 
 	@Override
@@ -112,15 +115,21 @@ public class SummationList extends FragmentActivity implements
 		// When the given dropdown item is selected, show its contents in the
 		// container view.
 		if (null == sheetId || sheetId != id) {
-			Fragment fragment = new ItemTableFragment();
-			Bundle args = new Bundle();
-			sheetId = id;
-			args.putLong(ItemTableFragment.ARG_SHEET_ID, id);
-			fragment.setArguments(args);
-			getSupportFragmentManager().beginTransaction()
-					.replace(R.id.container, fragment).commit();
+			setSheetId(id);
 		}
 		return true;
+	}
+
+	private void setSheetId(Long id) {
+		Fragment fragment = new ItemTableFragment();
+		Bundle args = new Bundle();
+		sheetId = id;
+		if (null != sheetId) {
+			args.putLong(ItemTableFragment.ARG_SHEET_ID, id);
+		}
+		fragment.setArguments(args);
+		getSupportFragmentManager().beginTransaction()
+				.replace(R.id.container, fragment).commit();
 	}
 
 	/**
@@ -148,7 +157,12 @@ public class SummationList extends FragmentActivity implements
 					R.layout.fragment_summation_list_dummy, container, false);
 			listView = (ListView) rootView
 					.findViewById(R.id.itemListView);
-			sheetId = getArguments().getLong(ARG_SHEET_ID);
+			if (getArguments().containsKey(ARG_SHEET_ID)) {
+				sheetId = getArguments().getLong(ARG_SHEET_ID);
+			}
+			else {
+				sheetId = null;
+			}
 			recreateItemAdapter();
 			sumView = (TextView) rootView.findViewById(R.id.summationListSum);
 			OnItemClickListener listener = new OnItemClickListener() {
@@ -215,18 +229,26 @@ public class SummationList extends FragmentActivity implements
 		}
 
 		private void updateSum() {
-			Double sum = getSummationApplication().getModel()
-					.getSheetSum(sheetId);
-			if (null != sum) {
-				String sumText = String.valueOf(sum);
-				sumView.setText(sumText);
+			if (null != sheetId) {
+				Double sum = getSummationApplication().getModel()
+						.getSheetSum(sheetId);
+				if (null != sum) {
+					String sumText = String.valueOf(sum);
+					sumView.setText(sumText);
+				}
+			}
+			else {
+				sumView.setText("");
 			}
 		}
 
 		private void recreateItemAdapter() {
 			Context context = getActivity().getApplicationContext();
-			Cursor items = getSummationApplication().getModel()
-					.getItems(sheetId, ItemAdapter.DB_ITEM_COLUMNS);
+			Cursor items = null;
+			if (null != sheetId) {
+				items = getSummationApplication().getModel()
+						.getItems(sheetId, ItemAdapter.DB_ITEM_COLUMNS);
+			}
 			if (itemAdapter == null) {
 				itemAdapter = new ItemAdapter(context, items, 0);
 				listView.setAdapter(itemAdapter);
