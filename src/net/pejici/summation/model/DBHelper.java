@@ -35,7 +35,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		// TODO Auto-generated method stub
 		db.execSQL(DB_CREATE_ALL);
 		Model model = new Model(db);
 		Long pk = model.addSheet("Groceries");

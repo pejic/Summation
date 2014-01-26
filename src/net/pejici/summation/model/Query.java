@@ -41,6 +41,10 @@ public class Query {
 				+ ");";
 	}
 
+	static String DB_DELETE_SHEET(Long pk) {
+		return "DROP TABLE sheet_"+pk+";";
+	}
+
 	static String DB_SHEET_SUM(Long pk) {
 		return "SELECT SUM(" + ItemEntry.COL_VALUE + ") FROM sheet_"+pk+";";
 	}

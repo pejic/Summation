@@ -60,6 +60,7 @@ public class Model {
 		db.delete(SheetEntry.TABLE_NAME,
 				SheetEntry.COL_PKEY + "=" + sheetId,
 				null);
+		db.execSQL(Query.DB_DELETE_SHEET(sheetId));
 	}
 
 	public Cursor getItems(long sheetId, String [] columns) {
