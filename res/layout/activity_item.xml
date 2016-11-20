@@ -16,7 +16,7 @@
         android:layout_below="@+id/item_label_edit"
         android:ems="10"
         android:hint="@string/item_value_hint"
-        android:inputType="numberDecimal" >
+        android:inputType="numberDecimal|numberSigned" >
 
         <requestFocus />
     </EditText>
