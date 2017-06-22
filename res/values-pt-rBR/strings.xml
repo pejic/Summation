@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Summation</string>
+    <string name="action_settings">Configurações</string>
+    <string name="action_add">Adicionar</string>
+    <string name="action_add_sheet">Adicionar Folha</string>
+    <string name="action_discard">Descartar</string>
+    <string name="action_edit_sheet">Editar Folha</string>
+    <string name="action_delete_sheet">Excluir Folha</string>
+    <string name="title_activity_sheet">Folha</string>
+    <string name="hello_world">Olá Mundo!</string>
+    <string name="text_sheet_name">Nome da Folha</string>
+    <string name="text_summation">Soma</string>
+    <string name="item_label_hint">Rótulo</string>
+    <string name="item_value_hint">Valor</string>
+    <string name="title_activity_item">ItemActivity</string>
+    <string name="item_label_text">Rótulo</string>
+    <string name="item_value_text">Valor</string>
+    <string name="item_activity_title">Item</string>
+    <string-array name="item_context_menu">
+        <item >Remover</item>
+    </string-array>
+
+</resources>
